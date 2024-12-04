@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import ttk
+from functools import partial
 import sys
 import os
 
@@ -9,25 +10,32 @@ janela = Tk()
 janela = janela
 #--------------------------------------------------------------------
 
-#aba de funções
+#importando as funções
 sys.path.append(os.path.join(os.path.dirname(__file__), 'functions')) 
 import save
 #--------------------------------------------------------------------
 
 #icone do software
-icone = PhotoImage(file="../software (em desenvolvimento)/galery/icone.png")
+# -> icone = PhotoImage(file="../Nova pasta/Python-Code/software (em desenvolvimento)/galery/icone.png")
 #--------------------------------------------------------------------
 
 #seleções de divisão
 divisao = ['nenhum', '1x', '2x', '3x', '4x', '5x', '6x', '7x', '8x', '9x', '10x', '11x', '12x']
 #--------------------------------------------------------------------
 
+#variavel global
+produtodados = StringVar()
+lojadados = StringVar()
+parceladados = StringVar()
+precodados = IntVar()
+
+
 #configurações da tela
 janela.title("Controle Financeiro")
 janela.resizable(False, False)
 janela.geometry('980x720')
 janela.configure(bg='gray')
-janela.iconphoto(False, icone)
+# -> janela.iconphoto(False, icone)
 #--------------------------------------------------------------------
 
 #janelas para as funções
@@ -48,30 +56,41 @@ treeview.heading("Loja", text="Loja")
 treeview.pack(expand=True, fill=BOTH)
 #--------------------------------------------------------------------
 
-#botão criar
-criar = Button(frame_1, text='SALVAR', font=('arial', 15, 'bold'), border=0)
-criar.place(rely=0.64, relx=0.60, relheight=0.16, relwidth=0.10)
+#botões
+#botão salvar
+criar = Button(frame_1, text='SALVAR', font=('arial', 15, 'bold'), border=0, command=partial(save.salvando, treeview, produtodados, lojadados, parceladados, precodados))
+criar.place(rely=0.48, relx=0.45, relheight=0.16, relwidth=0.10)
+#botão editar
+editar = Button(frame_1, text='EDITAR', font=('arial', 15, 'bold'), border=0)
+editar.place(rely=0.295, relx=0.45, relheight=0.16, relwidth=0.10)
+#botão excluir
+excluir = Button(frame_1, text='EXCLUIR', font=('arial', 15, 'bold'), border=0)
+excluir.place(rely=0.11, relx=0.45, relheight=0.16, relwidth=0.10)
 #--------------------------------------------------------------------
 
 #nomes das opções
 preco_nome = Label(frame_1, text='VALOR:', bg='gray', font=('arial', 17, 'bold'))
-preco_nome.place(rely=0.69, relx=0.275)
+preco_nome.place(rely=0.54, relx=0.067)
 produto_nome = Label(frame_1, text='PRODUTO:', bg='gray', font=('arial', 17, 'bold'))
-produto_nome.place(rely=0.09, relx=0.02)
+produto_nome.place(rely=0.09, relx=0.03)
 parcelas_nome = Label(frame_1, text='PARCELAS:', bg='gray', font=('arial', 17, 'bold'))
-parcelas_nome.place(relx=0.02, rely=0.25)
+parcelas_nome.place(rely=0.246, relx=0.02)
+empresa_nome = Label(frame_1, text='LOJA:', bg='gray', font=('arial', 17, 'bold'))
+empresa_nome.place(rely=0.39, relx=0.087)
 
 #--------------------------------------------------------------------
 
 #informações das variáveis
-preco = Entry(frame_1, font=('arial', 15, 'italic'))
-preco.place(rely=0.7, relx=0.37, relwidth=0.2)
-produto = Entry(frame_1, font=('arial', 15))
+preco = Entry(frame_1, font=('arial', 15, 'italic'), textvariable=precodados)
+preco.place(rely=0.55, relx=0.17)
+produto = Entry(frame_1, font=('arial', 15), textvariable=produtodados)
 produto.place(rely=0.1, relx=0.17)
 #caixa de seleção das parcelas
-parcelas = ttk.Combobox(frame_1, values=divisao, state='readonly', font=('arial', 15,'bold'))
+parcelas = ttk.Combobox(frame_1, values=divisao, state='readonly', font=('arial', 15,'bold'), textvariable=parceladados)
 parcelas.set("selecione as parcelas")
 parcelas.place(rely=0.25, relx=0.17, relwidth=0.233)
+loja = Entry(frame_1, font=('arial', 15), textvariable=lojadados)
+loja.place(rely=0.4, relx=0.17)
 #--------------------------------------------------------------------
 
 janela.mainloop()
