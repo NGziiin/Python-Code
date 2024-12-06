@@ -57,16 +57,16 @@ empresa_nome.place(rely=0.39, relx=0.087)
 #seleções de divisão
 divisao = ['nenhum', '1x', '2x', '3x', '4x', '5x', '6x', '7x', '8x', '9x', '10x', '11x', '12x']
 #--------------------------------------------------------------------
-treeview = ttk.Treeview(frame_2, columns=("Nome", "Valor", "Dividido", "Loja"), show="headings")
-treeview.heading("Nome", text="Produto")
+treeview = ttk.Treeview(frame_2, columns=("Produto", "Valor", "Parcelas", "Loja"), show="headings")
+treeview.heading("Produto", text="Produto")
 treeview.heading("Valor", text="Valor")
-treeview.heading("Dividido", text="Parcelas")
+treeview.heading("Parcelas", text="Parcelas")
 treeview.heading("Loja", text="Loja")
 treeview.pack(expand=True, fill=BOTH)
 
-treeview.column("Nome", width=200, anchor=CENTER)
+treeview.column("Produto", width=200, anchor=CENTER)
 treeview.column("Valor", width=50, anchor=CENTER)
-treeview.column("Dividido", width=50, anchor=CENTER)
+treeview.column("Parcelas", width=50, anchor=CENTER)
 treeview.column("Loja", width=200, anchor=CENTER)
 #--------------------------------------------------------------------
 
