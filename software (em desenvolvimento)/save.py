@@ -11,8 +11,6 @@ def salvando(treeview, produto_var, loja_var, parcela_var, preco_var, produto_en
     parcelas_save = parcela_var.get()
     preco_save = preco_var.get()
      
-     
-    #ESSA PARTE ESTÁ COM ERRO. NÃO VERIFICA A PLANILHA PARA VER SE TEM MAIS LOCAIS COM O MESMO NOME
     # Vendo se está tudo preenchido
     if produto_save and loja_save and parcelas_save != "selecione as parcelas" and preco_save:
         
