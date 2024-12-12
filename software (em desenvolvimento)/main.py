@@ -92,7 +92,7 @@ loja.place(rely=0.4, relx=0.17)
 criar = Button(frame_1, text='SALVAR', font=('arial', 15, 'bold'), border=0, command=partial(save.salvando, treeview, produtodados, lojadados, parceladados, precodados, produto, preco, loja, parcelas))
 criar.place(rely=0.48, relx=0.45, relheight=0.16, relwidth=0.10)
 #botão editar
-editar = Button(frame_1, text='EDITAR', font=('arial', 15, 'bold'), border=0, command=lambda: editar.edit(treeview, produtodados, lojadados, parceladados, precodados, produto, preco, loja, parcelas))
+editar = Button(frame_1, text='EDITAR', font=('arial', 15, 'bold'), border=0, command=partial(editar.janela_editar, treeview, produtodados, lojadados, parceladados, precodados, produto, preco, loja, parcelas))
 editar.place(rely=0.295, relx=0.45, relheight=0.16, relwidth=0.10)
 #botão excluir
 excluir = Button(frame_1, text='EXCLUIR', font=('arial', 15, 'bold'), border=0)
