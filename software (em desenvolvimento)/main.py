@@ -13,10 +13,14 @@ janela = janela
 
 #importando as funções 
 import save
+import editar
 #--------------------------------------------------------------------
 
 #icone do software
 # -> icone = PhotoImage(file="../Nova pasta/Python-Code/software (em desenvolvimento)/galery/icone.png")
+
+#recebendo parametros para bloqueio de texto na parte do valor
+vbloc = (janela.register(save.bloqueio), "%P")
 #--------------------------------------------------------------------
 
 #variavel global
@@ -71,7 +75,7 @@ treeview.column("Loja", width=200, anchor=CENTER)
 #--------------------------------------------------------------------
 
 #informações das variáveis
-preco = Entry(frame_1, font=('arial', 15), textvariable=precodados)
+preco = Entry(frame_1, font=('arial', 15), textvariable=precodados, validate="key", validatecommand=vbloc)
 preco.place(rely=0.55, relx=0.17)
 produto = Entry(frame_1, font=('arial', 15), textvariable=produtodados)
 produto.place(rely=0.1, relx=0.17)
@@ -88,7 +92,7 @@ loja.place(rely=0.4, relx=0.17)
 criar = Button(frame_1, text='SALVAR', font=('arial', 15, 'bold'), border=0, command=partial(save.salvando, treeview, produtodados, lojadados, parceladados, precodados, produto, preco, loja, parcelas))
 criar.place(rely=0.48, relx=0.45, relheight=0.16, relwidth=0.10)
 #botão editar
-editar = Button(frame_1, text='EDITAR', font=('arial', 15, 'bold'), border=0)
+editar = Button(frame_1, text='EDITAR', font=('arial', 15, 'bold'), border=0, command=lambda: editar.edit(treeview, produtodados, lojadados, parceladados, precodados, produto, preco, loja, parcelas))
 editar.place(rely=0.295, relx=0.45, relheight=0.16, relwidth=0.10)
 #botão excluir
 excluir = Button(frame_1, text='EXCLUIR', font=('arial', 15, 'bold'), border=0)

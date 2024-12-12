@@ -3,6 +3,7 @@ from tkinter import messagebox
 import os
 import sys
 
+#salvando os arquivos.
 def salvando(treeview, produto_var, loja_var, parcela_var, preco_var, produto_entry, preco_entry, loja_entry, parcela_combobox):
     
     # Recebendo dados das variáveis
@@ -37,10 +38,10 @@ def salvando(treeview, produto_var, loja_var, parcela_var, preco_var, produto_en
         messagebox.showwarning('Error!', 'Insira uma parcela!')
     elif not preco_save:
         messagebox.showwarning('Error!', 'Insira o valor do produto!')
-            
-        
+
+#bloqueio de letras na parte do preço  
 def bloqueio(P):
-  if P == '' or P.isdigit():
-      return False
-  else:
+  if P == '' or all(c.isdigit() or c == '.' or c == ',' for c in P):
       return True
+  else:
+      return False
