@@ -2,7 +2,6 @@ from tkinter import END
 from tkinter import messagebox
 import os
 import sys
-import editar
 
 #salvando os arquivos.
 def salvando(treeview, produto_var, loja_var, parcela_var, preco_var, produto_entry, preco_entry, loja_entry, parcela_combobox):

@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import ttk
 from functools import partial
 from tkinter import Tk
+from tkinter import Toplevel
 import sys
 import os
 
@@ -31,8 +32,8 @@ precodados = StringVar()
 
 #configurações da tela
 janela.title("Controle Financeiro")
-janela.resizable(False, False)
 janela.geometry('980x720')
+janela.resizable(False, False)
 janela.configure(bg='gray')
 # -> janela.iconphoto(False, icone)
 #--------------------------------------------------------------------
@@ -61,7 +62,7 @@ empresa_nome.place(rely=0.39, relx=0.087)
 #seleções de divisão
 divisao = ['nenhum', '1x', '2x', '3x', '4x', '5x', '6x', '7x', '8x', '9x', '10x', '11x', '12x']
 #--------------------------------------------------------------------
-treeview = ttk.Treeview(frame_2, columns=("Produto", "Valor", "Parcelas", "Loja"), show="headings")
+treeview = ttk.Treeview(frame_2, columns=("Produto", "Valor", "Parcelas", "Loja"), show="headings", selectmode='none')
 treeview.heading("Produto", text="Produto")
 treeview.heading("Valor", text="Valor")
 treeview.heading("Parcelas", text="Parcelas")
