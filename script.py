@@ -7,8 +7,8 @@ import time
 
 #configuração selenium
 driver_path = 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'
-login_url = 'https://cinenetcb.sgp.net.br/accounts/central/login'
-cnpj_cpf = '05.906.273/0001-13'
+login_url = 'you website'
+cnpj_cpf = 'you login'
 
 data = datetime.now().strftime('%d')
 
