@@ -1,4 +1,6 @@
 import sys
+
+from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QVBoxLayout
 from PySide6.QtGui import QGuiApplication
 import cv2
@@ -40,13 +42,13 @@ class MyApp(QWidget):
         # Layout organizado
         layout = QVBoxLayout(self)
         layout.setContentsMargins(16, 16, 16, 16)
-        layout.setSpacing(8)
+        layout.setSpacing(2)
 
-        self.lbl_info = QLabel("Estudo com Webcam")
-        self.btn_start = QPushButton("Clique aqui para iniciar a webcam")
+        self.Caixa_de_Login = QLabel("Estudo com Webcam", alignment=Qt.AlignCenter )
+        self.BotaoLogin = QPushButton("Login")
 
-        layout.addWidget(self.lbl_info)
-        layout.addWidget(self.btn_start)
+        layout.addWidget(self.Caixa_de_Login)
+        layout.addWidget(self.BotaoLogin)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
