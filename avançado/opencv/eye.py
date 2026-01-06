@@ -1,61 +1,137 @@
 import sys
-
+from PySide6.QtWidgets import (
+    QApplication, QWidget, QLabel, QLineEdit,
+    QPushButton, QVBoxLayout, QFrame
+)
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QVBoxLayout
 from PySide6.QtGui import QGuiApplication
-import cv2
 
 
-class ConfigSystem:
-    """Responsável por obter informações de tela e ajustar tamanho de janelas."""
+class WindowResizer:
+    def __init__(self, app: QGuiApplication):
+        self.app = app
 
-    def __init__(self, gui_app: QGuiApplication):
-        self.gui_app = gui_app
-
-    def resize_window_by_ratio(self, window: QWidget, width_ratio: float = 0.7, height_ratio: float = 0.7):
-        """
-        Redimensiona a janela com base em percentage da tela principal.
-        Ex.: 0,7 → 70% da largura/altura.
-        """
-        if not (0.1 <= width_ratio <= 1.0 and 0.1 <= height_ratio <= 1.0):
-            raise ValueError("As razões de largura/altura devem estar entre 0.1 e 1.0")
-
-        screen = self.gui_app.primaryScreen()
+    def resize_by_ratio(self, window: QWidget, width_ratio=0.4, height_ratio=0.55):
+        screen = self.app.primaryScreen()
         size = screen.size()
-        target_w = int(size.width() * width_ratio)
-        target_h = int(size.height() * height_ratio)
-        window.resize(target_w, target_h)
+        window.resize(
+            int(size.width() * width_ratio),
+            int(size.height() * height_ratio)
+        )
 
 
-class MyApp(QWidget):
-    def __init__(self, config: ConfigSystem):
+class LoginWindow(QWidget):
+    def __init__(self, resizer: WindowResizer):
         super().__init__()
-        self.config = config
+        self.resizer = resizer
+        self.resizer.resize_by_ratio(self)
 
+        self.setWindowTitle("Login do Sistema")
+        self.setStyleSheet(self._global_style())
+
+        self._build_ui()
+
+    def _build_ui(self):
+        main_layout = QVBoxLayout(self)
+        main_layout.setAlignment(Qt.AlignCenter)
+
+        # Card central
+        card = QFrame()
+        card.setObjectName("card")
+        card_layout = QVBoxLayout(card)
+        card_layout.setContentsMargins(40, 40, 40, 40)
+        card_layout.setSpacing(18)
+
+        # Título
+        title = QLabel("Acesso ao Sistema")
+        title.setAlignment(Qt.AlignCenter)
+        title.setObjectName("title")
+
+        # Inputs
+        self.user_input = QLineEdit()
+        self.user_input.setPlaceholderText("Usuário")
+
+        self.password_input = QLineEdit()
+        self.password_input.setPlaceholderText("Senha")
+        self.password_input.setEchoMode(QLineEdit.Password)
+
+        # Botão
+        self.login_button = QPushButton("Entrar")
+        self.login_button.setObjectName("login_button") # style do botão de login
+        self.register_button = QPushButton("Cadastrar")
+        self.register_button.setObjectName("register_button") # style do botão de registrar
+
+        # Montagem
+        card_layout.addWidget(title)
+        card_layout.addWidget(self.user_input)
+        card_layout.addWidget(self.password_input)
+        card_layout.addWidget(self.login_button)
+        card_layout.addWidget(self.register_button)
+
+        main_layout.addWidget(card)
+
+    def _global_style(self):
+        return """
+        QWidget {
+            background-color: #f4f6f8;
+            font-family: Segoe UI;
+        }
+
+        #card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            min-width: 320px;
+            max-width: 420px;
+        }
+
+        #title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #222;
+            background-color: transparent;
+        }
+        
+        #register_button {
+            background-color: green;
+        }
+
+        QLineEdit {
+            height: 38px;
+            border-radius: 8px;
+            padding-left: 10px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        QLineEdit:focus {
+            border: 1px solid #2d89ef;
+        }
+
+        QPushButton {
+            height: 40px;
+            border-radius: 8px;
+            background-color: #2d89ef;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            border: none;
+        }
+
+        QPushButton:hover {
+            background-color: #1b6fd8;
+        }
+
+        QPushButton:pressed {
+            background-color: #1558aa;
+        }
         """
-        Essa função redimensiona a janela do app de acordo com o monitor
-        """
-        self.config.resize_window_by_ratio(self, 0.7, 0.7)
 
-        self.setWindowTitle("Estudo PySide6 & OpenCV – WebCam e Olhos")
 
-        # Layout organizado
-        layout = QVBoxLayout(self)
-        layout.setContentsMargins(16, 16, 16, 16)
-        layout.setSpacing(2)
-
-        self.Caixa_de_Login = QLabel("Estudo com Webcam", alignment=Qt.AlignCenter )
-        self.BotaoLogin = QPushButton("Login")
-
-        layout.addWidget(self.Caixa_de_Login)
-        layout.addWidget(self.BotaoLogin)
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     app = QApplication(sys.argv)
 
-    # Use QGuiApplication de forma segura (QApplication herda dele, então podemos passar o mesmo “app”)
-    config = ConfigSystem(QGuiApplication.instance() or QGuiApplication(sys.argv))
+    resizer = WindowResizer(QGuiApplication.instance())
+    window = LoginWindow(resizer)
+    window.show()
 
-    widget = MyApp(config)
-    widget.show()
     sys.exit(app.exec())
