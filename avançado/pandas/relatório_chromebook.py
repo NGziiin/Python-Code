@@ -1,27 +1,55 @@
-#### NÃO TENHO ACESSO A API ENTÃO PRECISO CRIAR UM SISTEMA DRAG & DROP DE CSV PARA FAZER ESSE SISTEMA
-import customtkinter as ctk
-import pandas as pd
+import re
+from playwright.sync_api import Playwright, sync_playwright, expect
 
-class Interface:
-    def __init__(self):
-        self.janela = ctk.CTk()
-        self.config_interface()
-        self.janela.mainloop()
 
-    def config_interface(self):
-        self.janela.resizable(False, False)
-        self.janela.geometry("430x390")
-        self.janela.title('Contador de chromebook')
+def run(playwright: Playwright) -> None:
+    browser = playwright.chromium.launch(headless=False)
+    context = browser.new_context()
+    page = context.new_page()
+    page.goto("https://keycloak.4biz.one/auth/realms/seduc-03/protocol/openid-connect/auth?client_id=front-manager&redirect_uri=https%3A%2F%2Fseduc.4biz.one%2F&state=16a7b9d0-51df-4f45-85cc-17c91de73265&response_mode=fragment&response_type=code&scope=openid&nonce=52890723-1e6e-4577-b7f1-23ca7d98870e&code_challenge=Y-vWkSSZTMnPhO0tn9BFcrSrKBQBgp6IIwU0PEfNmUs&code_challenge_method=S256")
+    page.get_by_role("button", name="Se você é da SEDUC - Clique").click()
+    page.get_by_role("textbox", name="Insira o seu email, telefone").click()
+    page.get_by_role("textbox", name="Insira o seu email, telefone").fill("herick.alves@seduc.go.gov.br")
+    page.get_by_role("textbox", name="Insira o seu email, telefone").press("Enter")
+    page.get_by_role("button", name="Avançar").click()
+    page.goto("https://login.microsoftonline.com/67e592f1-9681-429a-baa9-9508fdfd7780/login")
+    page.get_by_role("button", name="Sim").click()
+    page.get_by_text("Relatórios", exact=True).click()
+    page.get_by_text("Gerência de Tickets").click()
+    page.get_by_text("Pesquisa Tickets").click()
+    page.locator("iframe[title=\"App\"]").nth(1).content_frame.locator("#dataInicio").click()
+    page.locator("iframe[title=\"App\"]").nth(1).content_frame.get_by_title("<Anterior").click()
+    page.locator("iframe[title=\"App\"]").nth(1).content_frame.get_by_title("<Anterior").click()
+    page.locator("iframe[title=\"App\"]").nth(1).content_frame.get_by_title("<Anterior").click()
+    page.locator("iframe[title=\"App\"]").nth(1).content_frame.get_by_title("<Anterior").dblclick()
+    page.locator("iframe[title=\"App\"]").nth(1).content_frame.get_by_title("<Anterior").click()
+    page.locator("iframe[title=\"App\"]").nth(1).content_frame.get_by_title("<Anterior").click()
+    page.locator("iframe[title=\"App\"]").nth(1).content_frame.get_by_title("<Anterior").click()
+    page.locator("iframe[title=\"App\"]").nth(1).content_frame.get_by_title("<Anterior").click()
+    page.locator("iframe[title=\"App\"]").nth(1).content_frame.get_by_title("<Anterior").click()
+    page.locator("iframe[title=\"App\"]").nth(1).content_frame.get_by_title("<Anterior").click()
+    page.locator("iframe[title=\"App\"]").nth(1).content_frame.get_by_title("<Anterior").click()
+    page.locator("iframe[title=\"App\"]").nth(1).content_frame.get_by_title("<Anterior").click()
+    page.locator("iframe[title=\"App\"]").nth(1).content_frame.get_by_title("<Anterior").click()
+    page.locator("iframe[title=\"App\"]").nth(1).content_frame.get_by_title("<Anterior").click()
+    page.locator("iframe[title=\"App\"]").nth(1).content_frame.get_by_role("link", name="1", exact=True).click()
+    page.locator("iframe[title=\"App\"]").nth(1).content_frame.locator("#dataFim").click()
+    page.locator("iframe[title=\"App\"]").nth(1).content_frame.get_by_title("Próximo>").click()
+    page.locator("iframe[title=\"App\"]").nth(1).content_frame.get_by_title("Próximo>").click()
+    page.locator("iframe[title=\"App\"]").nth(1).content_frame.get_by_title("Próximo>").click()
+    page.locator("iframe[title=\"App\"]").nth(1).content_frame.get_by_role("link", name="31").click()
+    page.locator("iframe[title=\"App\"]").nth(1).content_frame.locator("#nomeUsuarioResponsavelAtual").click()
+    page.locator("iframe[title=\"App\"]").nth(1).content_frame.locator("#pesqLockupLOOKUP_RESPONSAVEL_ATUAL_nome").click()
+    page.locator("iframe[title=\"App\"]").nth(1).content_frame.locator("#pesqLockupLOOKUP_RESPONSAVEL_ATUAL_nome").fill("herick")
+    page.locator("iframe[title=\"App\"]").nth(1).content_frame.locator("button[name=\"btnLOOKUP_RESPONSAVEL_ATUAL\"]").click()
+    page.locator("iframe[title=\"App\"]").nth(1).content_frame.get_by_role("row", name="Herick Müller Ferreira Alves").get_by_role("radio").check()
+    page.once("dialog", lambda dialog: dialog.dismiss())
+    page.locator("iframe[title=\"App\"]").nth(1).content_frame.get_by_role("button", name="Exportar CSV").click()
 
-class Geral:
-    def __init__(self):
-        self.link_planilha = f"C:/Users/heric/Downloads/controle de chromebook para garantia(CHROMEBOOK - SEDUC).csv"
-        self.load_planilha()
-        pass
+    # ---------------------
+    context.close()
+    browser.close()
 
-    def load_planilha(self):
-        self.planilha = pd.read_csv(self.link_planilha, encoding='latin1')
-        print(self.planilha.head())
 
-if __name__ == "__main__":
-    Interface()
+with sync_playwright() as playwright:
+    run(playwright)
