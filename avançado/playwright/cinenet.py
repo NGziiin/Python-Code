@@ -8,15 +8,16 @@ class system:
 
     def WebInfo(self):
         self.link = "https://cinenetcb.sgp.net.br/accounts/central/login"
-        #self.user = input("digite seu nome para login: ")
+        self.user = input("digite seu nome para login: ")
 
     def manipulandoWeb(self):
         with sync_playwright() as p:
             self.browser = p.chromium.launch(channel="msedge")
             self.page = self.browser.new_page()
             self.page.goto(self.link)
-            print(self.page.title())
-            self.browser.close()
+            print(self.page.name)
+            self.page.locator(".form-control ").fill(self.user)
+            self.page.locator()
 
 
 if __name__ == "__main__":
